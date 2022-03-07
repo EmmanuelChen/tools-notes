@@ -1,0 +1,15 @@
+dnsrecon -t [technique/type] -d [site.com]
+sublist3r -d [site.com]
+
+
+ffuf:
+
+site enum:
+ffuf -w /usr/share/wordlists/SecLists/Discovery/DNS/namelist.txt -H "Host: FUZZ.acmeitsupport.thm" -u http://10.10.152.95 -fs {size}
+
+username enum:
+ffuf -w /usr/share/seclists/Usernames/Names/names.txt -X POST -d "username=FUZZ&email=x&password=x&cpassword=x" -H "Content-Type: application/x-www-form-urlencoded" -u http://10.10.233.250/customers/signup -mr "An account with this username already exists"
+
+password dictionary attack
+ffuf -w THM_Auth_bypass_usernames.txt:W1,/usr/share/seclists/Passwords/Common-Credentials/10-million-password-list-top-100.txt:W2 -X POST -d "username=W1&password=W2" -H "Content-Type: application/x-www-form-urlencoded" -u http://10.10.233.250/customers/login -fc 200
+

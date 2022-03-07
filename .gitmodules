@@ -1,0 +1,12 @@
+[submodule "tools/win_tool/evil-winrm"]
+	path = tools/win_tool/evil-winrm
+	url = https://github.com/Hackplayers/evil-winrm.git
+[submodule "tools/win_tool/wesng"]
+	path = tools/win_tool/wesng
+	url = https://github.com/bitsadmin/wesng.git
+[submodule "tools/win_tool/Windows-Exploit-Suggester"]
+	path = tools/win_tool/Windows-Exploit-Suggester
+	url = https://github.com/AonCyberLabs/Windows-Exploit-Suggester.git
+[submodule "tools/win_tool/Responder"]
+	path = tools/win_tool/Responder
+	url = https://github.com/camopants/igandx-Responder.git

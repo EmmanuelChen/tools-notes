@@ -1,0 +1,93 @@
+--------------------------------------------------------------------------------
+Linux port scan script:
+
+#!/bin/bash
+
+usage() {
+echo "Usage: $0 -i <ip> -p <ports> [-v|-vv]"
+echo "** Ports format: all|<number>|<number>-<number>|<number>,<number>,..."
+echo "** Example: $0 -i 10.1.1.200 -p 1-65535"
+}
+bannergrab() {
+if [ -n "$NC" ]; then
+timeout 1 bash -c "echo 'x' | nc $1 $2"
+else
+timeout 2 bash -c "exec 3<>/dev/tcp/$1/$2; echo EOF>&3; cat<&3"
+fi
+}
+portscan() {
+if [ -n "$NC" ]; then
+$NC -w 1 -z -v $1 $2 >/dev/null 2>&1
+else
+timeout 1 bash -c "echo > /dev/tcp/$1/$2" >/dev/null 2>&1
+fi
+}
+
+while [ "$1" != "" ]; do
+case "$1" in
+-i | --ip ) ip="$2"; shift;;
+-p | --ports ) ports="$2"; shift;;
+-v | --verbose ) verbose="true"; shift;;
+-vv | --verbose ) verbose="true"; verbose2="true"; ;;
+esac
+shift
+done
+
+NC=`which nc`
+
+[ -z "$ip" ] || [ -z "$ports" ] && usage && exit 1
+[ `echo $ports | grep -o '-' | wc -l` -gt 1 ] && usage && exit 1
+
+ports=`echo $ports | tr '[:upper:]' '[:lower:]'`
+[ "$ports" = "all" ] && ports="1-65535"
+
+if [ `echo $ports | grep -o '-' | wc -l` -gt 0 ]; then
+start=`echo $ports | cut -d '-' -f 1`
+end=`echo $ports | cut -d '-' -f 2`
+#ports=`seq $start $end`
+ports=($(seq $start $end)) # Create array
+fi
+
+batch=1000
+step=0
+opened=""
+#nports=`echo $ports | wc -w`
+nports=${#ports[@]} # Number of ports
+declare -a pids
+
+echo "Starting background portscan: IP = $ip ($nports ports)" && \
+echo "---------------------------------------------------"
+while [ $step -le $nports ]; do
+echo "Scanning from $step to $((step+$batch))"
+for p in ${ports[@]:$step:$batch} ; do
+portscan $ip $p &
+pids[$p]=$!
+if [ $verbose ]; then
+if [ $(( $p % 100 )) -eq 0 ]; then
+echo "($p)"
+else
+echo -n "."
+fi
+fi
+done
+echo "Getting results ..."
+for p in ${ports[@]:$step:$batch} ; do
+if wait ${pids[$p]}; then
+banner=`bannergrab $ip $p 2>/dev/null | base64 -w 0`
+opened="$opened,$p"
+#echo "($p)"
+echo $ip" ["$p"] open"
+echo $ip" ["$p"] banner: $banner"
+else
+[ $verbose2 ] && echo $ip" ["$p"] closed"
+fi
+done
+step=$(($step+$batch))
+done
+
+opened=`echo $opened | sed 's/^,//'`
+echo "---------------------------------------------------"
+echo "Opened ports: $opened"
+echo "---------------------------------------------------"
+
+----------------------------------------------------------------------------------------------------------------------------------------

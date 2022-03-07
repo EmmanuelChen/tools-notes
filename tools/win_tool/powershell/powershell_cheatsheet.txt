@@ -1,0 +1,7 @@
+Import-Module .\PowerView.ps1
+
+Use powerview to get logged-in user
+	Get-NetLoggedon -ComputerName client251
+	
+to get active sessions
+	Get-NetSession -ComputerName dc01

@@ -1,0 +1,4 @@
+Win32 usr/share/mimikatz/
+x64 usr/share/mimikatz/
+kiwi_passwords.yar usr/share/mimikatz/
+mimicom.idl usr/share/mimikatz/
