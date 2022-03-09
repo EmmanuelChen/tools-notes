@@ -1,0 +1,1 @@
+echo [data]  | python -c "import hashlib,binascii; print binascii.hexlify(hashlib.new('md4',binascii.unhexlify(raw_input().replace('\\'.'').replace('00','')).decode('utf-8').encode('utf-16le')).digest())"
