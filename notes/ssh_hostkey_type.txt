@@ -1,0 +1,1 @@
+ssh -oHostKeyAlgorithms=+ssh-dss,keytypeA,keytypeB,keytypeC..... username@IP
