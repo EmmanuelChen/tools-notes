@@ -4,4 +4,7 @@
 
 https://pentestmonkey.net/category/cheat-sheet/sql-injection
 
-
+#sqlmap
+1. do a request on vulnerable page and capture it with burp proxy
+2. save the request into a file
+3. sqlmap -r /path/to/saved/file 
