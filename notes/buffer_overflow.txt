@@ -5,10 +5,10 @@
 #3. copie the hex on the EIP and check with 
       pattern_offset.rb -q [hex]
 #4. send bad chars to the application and check which ones are bad chars
-#5. Locate memory addr of JMP ESP or PUSH ESP, RET
+#5. Locate memory addr of JMP ESP or PUSH ESP, RET or CALL ESP
       1. *JMP ESP (opcode FFE4) 
       2. *PUSH ESP, RET(opcode 54C3)
-
+      3. CALL ESP (opcode FFD4)
       #To locate the address of above opearation
     	1.!mona find -s "opcode" -m module
 	    #example:
