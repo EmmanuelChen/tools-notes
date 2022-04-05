@@ -1,2 +1,2 @@
-*.pyc
-*.swp
+**/buf_overflow/*.pyc
+**/buf_overflow/*.swp
