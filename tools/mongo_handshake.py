@@ -1,5 +1,4 @@
-#Cracking the password of user
-#during the handshake
+#Cracking the mongodb Salted Challenge Response Authentication Mechanism (SCRAM) handshake
 
 #!/usr/bin/python3
 
@@ -37,13 +36,13 @@ def proof(username, password, salt, client_nonce, server_nonce, iterations):
     raw_salt = base64.b64decode(salt)
     client_first_bare = 'n={},r={}'.format(username, client_nonce)
     server_first = 'r={},s={},i={}'.format(server_nonce, salt, iterations)
-    client_final_without_proof = 'c=biws,r={}'.format(server_nonce)
+    client_final_without_proof = 'c=biws,r={}'.format(server_nonce)               #??not sure if c=biws needs to change??
     auth_msg = '{},{},{}'.format(client_first_bare, server_first, client_final_without_proof)
 
-    salted_password = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), raw_salt, iterations)
-    client_key = hmac.digest(salted_password, b'Client Key', 'sha256')
+    salted_password = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), raw_salt, iterations)  #Hash algo need change too
+    client_key = hmac.digest(salted_password, b'Client Key', 'sha256')                               #Hash algo need change too
     stored_key = hashlib.sha256(client_key).digest()
-    client_signature = hmac.new(stored_key, auth_msg.encode('utf-8'), 'sha256').digest()
+    client_signature = hmac.new(stored_key, auth_msg.encode('utf-8'), 'sha256').digest()             #Hash algo need change too
     client_proof = byte_xor(client_key, client_signature)
 
     return base64.b64encode(client_proof).decode('utf-8')
