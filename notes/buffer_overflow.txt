@@ -5,6 +5,14 @@
 #3. copie the hex on the EIP and check with 
       pattern_offset.rb -q [hex]
 #4. send bad chars to the application and check which ones are bad chars
+      1. Manually
+           1. send
+           2. click follow in dump on ESP
+           3. look through every single char
+      2. With mona
+           1. !mona bytearray -cpb "\x00"  # generate a byte array without "\x00"
+           2. copy the byte array and send it to the vuln service
+           3. !mona compare -f "PATH/TO/bytearray.bin" -a [ESP ADDR]    #path usually C:\mona\bytearray.bin
 #5. Locate memory addr of JMP ESP or PUSH ESP, RET or CALL ESP
       1. *JMP ESP (opcode FFE4) 
       2. *PUSH ESP, RET(opcode 54C3)
