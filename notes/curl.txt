@@ -6,3 +6,11 @@
     *application/json
         curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST http://localhost:3000/test
 	curl -d "@data.json" -X POST http://localhost:3000/data
+	
+# -G opetion
+    When  used,  this option will make all data specified with -d, --data, --data-binary or --data-urlencode to be
+    used in an HTTP GET request instead of the POST request that otherwise would be used. The  data  will  be  ap‐
+    pended to the URL with a '?' separator.
+    
+    curl -G 'http://localhost/?' --data-urlencode 'cmd /c COMMANDS'
+
