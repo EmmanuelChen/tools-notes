@@ -1,0 +1,8 @@
+#POST  
+    *application/x-www-form-urlencoded 
+        curl -d "param1=value1&param2=value2" -X POST http://localhost:3000/test
+        curl -d "@data.txt" -X POST http://localhost:3000/data
+              data.txt is a file which contains param1=value1&param2=value2
+    *application/json
+        curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST http://localhost:3000/test
+	curl -d "@data.json" -X POST http://localhost:3000/data
