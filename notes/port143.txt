@@ -31,3 +31,14 @@ A1 LIST "" *                        #list mail box
 A1 SELECT INBOX                     #select mail box to use
 A1 FETCH 3 BODY[1]                  #fetch the number 3 or the 3rd email
 A1 FETCH 2:5 BODY[HEADER] BODY[1]   #fetch the reset number  2 - 5 emails
+
+
+#How to use sendmail command line:
+sendemail -f 'jonas@localhost' \
+          -t 'mailadmin@localhost' \
+          -s 192.168.120.132:25 \
+          -u 'Your spreadsheet' \
+          -m 'Here is your requested spreadsheet' \
+          -a bomb.ods
+
+# -f from, -t to, -s server i guess, -u title/subject, -m message, -a attachments
