@@ -1,0 +1,15 @@
+[Unit]
+Description=Anythingyoulike
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/path/to/executable
+TimeoutSec=30
+RestartSec=15s
+User=root      #<--start as root
+ExecReload=/bin/kill -USR1 $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

