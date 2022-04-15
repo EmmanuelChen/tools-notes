@@ -1,0 +1,33 @@
+you can use a1 or tag for the following command
+
+#Login
+    A1 LOGIN email_or_username password     #A1 LOGIN test password  or A1 LOGIN test@test.com password
+    tag LOGIN email_or_username password
+
+#List Folders
+    A1 LIST "" *
+    A1 LIST INBOX *
+    A1 LIST "Archive" *
+
+#List Subscribed Mailboxes
+    A1 LSUB "" *
+
+#Select a mailbox
+    A1 SELECT INBOX
+
+#List messages
+    A1 FETCH 1:* (FLAGS)
+    A1 UID FETCH 1:* (FLAGS)
+
+#Retrive Message Content
+    A1 FETCH 2 BODY[TEXT]
+    A1 FETCH 2 all
+
+
+****A Typical workflow****
+
+A1 LOGIN test password              #login  
+A1 LIST "" *                        #list mail box
+A1 SELECT INBOX                     #select mail box to use
+A1 FETCH 3 BODY[1]                  #fetch the number 3 or the 3rd email
+A1 FETCH 2:5 BODY[HEADER] BODY[1]   #fetch the reset number  2 - 5 emails
