@@ -12,4 +12,8 @@
 
 
 #Decode
-    echod "YW55dGhpbmcK" | base64 -d
+    echo "YW55dGhpbmcK" | base64 -d
+
+
+#Decode and execute
+    echo "dsadsa" | base64 -d | bash
