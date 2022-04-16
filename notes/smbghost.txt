@@ -1,0 +1,6 @@
+#List the KB installed with date
+    wmic qfe list
+
+    if the latest is KB4540673 then target possible vuln to SMBghost
+
+https://github.com/danigargu/CVE-2020-0796
