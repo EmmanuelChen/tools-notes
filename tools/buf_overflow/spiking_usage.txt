@@ -1,0 +1,1 @@
+generic_sen_tcp IP PORT spike.spk 0 0
