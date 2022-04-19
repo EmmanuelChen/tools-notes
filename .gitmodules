@@ -1,21 +1,6 @@
-[submodule "tools/win_tool/evil-winrm"]
-	path = tools/win_tool/evil-winrm
-	url = https://github.com/Hackplayers/evil-winrm.git
-[submodule "tools/win_tool/wesng"]
-	path = tools/win_tool/wesng
-	url = https://github.com/bitsadmin/wesng.git
-[submodule "tools/win_tool/Windows-Exploit-Suggester"]
-	path = tools/win_tool/Windows-Exploit-Suggester
-	url = https://github.com/AonCyberLabs/Windows-Exploit-Suggester.git
-[submodule "tools/win_tool/Responder"]
-	path = tools/win_tool/Responder
-	url = https://github.com/camopants/igandx-Responder.git
 [submodule "tools/chisel"]
 	path = tools/chisel
 	url = https://github.com/jpillora/chisel.git
-[submodule "tools/tools/PEASS-ng"]
-	path = tools/tools/PEASS-ng
-	url = https://github.com/carlospolop/PEASS-ng.git
 [submodule "tools/PEASS-ng"]
 	path = tools/PEASS-ng
 	url = https://github.com/carlospolop/PEASS-ng.git
