@@ -10,3 +10,6 @@
 [submodule "tools/win_tool/Responder"]
 	path = tools/win_tool/Responder
 	url = https://github.com/camopants/igandx-Responder.git
+[submodule "tools/chisel"]
+	path = tools/chisel
+	url = https://github.com/jpillora/chisel.git
