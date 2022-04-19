@@ -4,3 +4,6 @@
 [submodule "tools/PEASS-ng"]
 	path = tools/PEASS-ng
 	url = https://github.com/carlospolop/PEASS-ng.git
+[submodule "tools/2_win_tool/powershell/PrivescCheck"]
+	path = tools/2_win_tool/powershell/PrivescCheck
+	url = https://github.com/itm4n/PrivescCheck.git
