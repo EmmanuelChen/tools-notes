@@ -13,3 +13,9 @@
 [submodule "tools/chisel"]
 	path = tools/chisel
 	url = https://github.com/jpillora/chisel.git
+[submodule "tools/tools/PEASS-ng"]
+	path = tools/tools/PEASS-ng
+	url = https://github.com/carlospolop/PEASS-ng.git
+[submodule "tools/PEASS-ng"]
+	path = tools/PEASS-ng
+	url = https://github.com/carlospolop/PEASS-ng.git
