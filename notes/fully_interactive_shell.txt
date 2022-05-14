@@ -1,0 +1,9 @@
+1.spawn a python tty
+2.background the shell
+3.In the host terminal run 
+    1. echo $TERM and take notes 
+    2. stty -a and take notes of rows and columns
+    3. stty raw -echo;fg and press Enter twice
+4.in the target shell run
+	1. export TERM=[The output of echo $TERM]
+	2. stty raws [NUM] columns [NUM]
